@@ -104,8 +104,18 @@ public class SpriteAnimation : MonoBehaviour {
 		if (currentAnimation == animDriveRight) {
 			currentFrame = chooseAnimationFrame(currentFrame, driveRightMin, driveRightMax);
 		}
-		if (currentAnimation == animIdleRight || currentAnimation == animIdleLeft) {
-			currentFrame = currentAnimation;
+		// There's a more efficient way to do this.
+		if (currentAnimation == animIdleLeft) {
+			currentFrame = idleLeft;
+		}
+		if (currentAnimation == animIdleRight) {
+			currentFrame = idleRight;
+		}
+		if (currentAnimation == animSpin) {
+			currentFrame = spin;
+		}
+		if (currentAnimation == animExplosion) {
+			currentFrame = chooseAnimationFrame(currentFrame, explosionMin, explosionMax);
 		}
 
 		// Enter the weird magic...this is just strange.
@@ -115,6 +125,7 @@ public class SpriteAnimation : MonoBehaviour {
 			framePostition.y++;
 		}
 
+		// you know 
 		framePostition.x = i - 1;
 
 		// End weird magic
