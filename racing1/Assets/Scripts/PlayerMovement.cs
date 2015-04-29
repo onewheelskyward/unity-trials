@@ -17,14 +17,23 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (Input.GetAxis("Vertical") > 0.0f) {
+		float verticalSpeed = Input.GetAxis("Vertical");
+		float horizontalSpeed = Input.GetAxis("Horizontal");
+
+		if (verticalSpeed > 0.0f) {
 						// Input vertical button e.g. up arrow
-			moveDirection = Input.GetAxis("Vertical") * speed;
+			moveDirection = verticalSpeed * speed;
 			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+
+			turnDirection = horizontalSpeed * turnSpeed;
+			GetComponent<Rigidbody>().AddRelativeTorque(0, turnDirection, 0);
 		}
-		if (Input.GetAxis("Vertical") < 0.0f) {
-			moveDirection = Input.GetAxis("Vertical") * reverseSpeed;
+		if (verticalSpeed < 0.0f) {
+			moveDirection = verticalSpeed * reverseSpeed;
 			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+
+			turnDirection = horizontalSpeed * turnSpeed;
+			GetComponent<Rigidbody>().AddRelativeTorque(0, -turnDirection, 0);
 		}
 			
 	}
