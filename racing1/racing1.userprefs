@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SpriteAnimation.cs">
     <Files>
-      <File FileName="Assets/Scripts/PlayerMovement.cs" Line="34" Column="22" />
-      <File FileName="Assets/Scripts/SpriteAnimation.cs" Line="54" Column="9" />
+      <File FileName="Assets/Scripts/PlayerMovement.cs" Line="29" Column="2" />
+      <File FileName="Assets/Scripts/SpriteAnimation.cs" Line="70" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

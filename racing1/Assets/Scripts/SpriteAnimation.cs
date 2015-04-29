@@ -61,16 +61,25 @@ public class SpriteAnimation : MonoBehaviour {
 		PlayerMovement playerMovement = transform.parent.GetComponent<PlayerMovement>();
 		float carVelocity = playerMovement.currentSpeed;
 
-		if (carVelocity >= 0.1f) {
-			currentAnimation = animDrive;
-		} else {
-			currentAnimation = animIdle;
-		}
+		bool turnedLeft = Input.GetAxis("Horizontal") < 0.0f;
+		bool turnedRight = Input.GetAxis("Horizontal") > 0.0f;
 
-		if (Input.GetAxis("Horizontal") > 0.0f) {
-			currentAnimation = animDriveRight;
-		} else if(Input.GetAxis("Horizontal") < 0.0f) {
-			currentAnimation = animDriveLeft;
+		if (carVelocity >= 0.1f) {
+			if (turnedRight) {
+				currentAnimation = animDriveRight;
+			} else if(turnedLeft) {
+				currentAnimation = animDriveLeft;
+			} else {
+				currentAnimation = animDrive;
+			}
+		} else {
+			if (turnedRight) {
+				currentAnimation = animIdleRight;
+			} else if(turnedLeft) {
+				currentAnimation = animIdleLeft;
+			} else {
+				currentAnimation = animIdle;
+			}
 		}
 	}
 
@@ -88,11 +97,6 @@ public class SpriteAnimation : MonoBehaviour {
 		}
 		if (currentAnimation == animDrive) {
 			currentFrame = chooseAnimationFrame(currentFrame, driveMin, driveMax);
-//			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax + 1);
-//			if (currentFrame > driveMax) {
-//				currentFrame = driveMin;
-//			}
-
 		}
 		if (currentAnimation == animDriveLeft) {
 			currentFrame = chooseAnimationFrame(currentFrame, driveLeftMin, driveLeftMax);
@@ -100,6 +104,10 @@ public class SpriteAnimation : MonoBehaviour {
 		if (currentAnimation == animDriveRight) {
 			currentFrame = chooseAnimationFrame(currentFrame, driveRightMin, driveRightMax);
 		}
+		if (currentAnimation == animIdleRight || currentAnimation == animIdleLeft) {
+			currentFrame = currentAnimation;
+		}
+
 		// Enter the weird magic...this is just strange.
 		framePostition.y = 1;
 
