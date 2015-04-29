@@ -16,10 +16,16 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+		if (Input.GetAxis("Vertical") > 0.0f) {
 						// Input vertical button e.g. up arrow
-		moveDirection = Input.GetAxis("Vertical") * speed;
-		GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
-		
+			moveDirection = Input.GetAxis("Vertical") * speed;
+			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+		}
+		if (Input.GetAxis("Vertical") < 0.0f) {
+			moveDirection = Input.GetAxis("Vertical") * reverseSpeed;
+			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+		}
+			
 	}
 }
