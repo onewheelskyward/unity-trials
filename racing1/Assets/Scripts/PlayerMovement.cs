@@ -38,6 +38,20 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 		float currentSpeed = Mathf.Abs(transform.InverseTransformDirection(rigidBody.velocity).z);
-			
+
+		float maxAngularDrag = 2.5f;
+		float currentAngularDrag = 1.0f;
+		float angularDragLerpTime = currentSpeed * 0.1f;
+
+		float maxDrag = 1.0f;
+		float currentDrag = 2.5f;
+		float dragLerpTime = currentSpeed * 0.1f;
+
+		float angularDrag = Mathf.Lerp(currentAngularDrag, maxAngularDrag, angularDragLerpTime);
+		float drag = Mathf.Lerp (currentDrag, maxDrag, dragLerpTime);
+
+		rigidBody.angularDrag = angularDrag;
+		rigidBody.drag = drag;
+
 	}
 }
