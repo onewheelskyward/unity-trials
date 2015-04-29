@@ -16,6 +16,8 @@ public class SpriteAnimation : MonoBehaviour {
 	private Vector2 frameSize;
 	private Vector2 frameOffset;
 
+	private int i;  // Not real sure why we're storing this on the instance.
+
 	private int idleFrame = 17;
 	private int idleLeft = 1;
 	private int idleRight = 2;
@@ -71,12 +73,16 @@ public class SpriteAnimation : MonoBehaviour {
 			animationTime++;
 		}
 
+		// Enter the weird magic...this is just strange.
 		framePostition.y = 1;
-		int i;
+
 		for (i = currentFrame; i > columns; i -= rows) {
 			framePostition.y++;
 		}
+
 		framePostition.x = i - 1;
+
+		// End weird magic
 
 		frameSize = new Vector2(1.0f / columns, 1.0f / rows);
 		frameOffset = new Vector2(framePostition.x / columns, 1.0f - (framePostition.y / rows));
