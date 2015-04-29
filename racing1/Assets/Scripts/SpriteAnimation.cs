@@ -66,6 +66,12 @@ public class SpriteAnimation : MonoBehaviour {
 		} else {
 			currentAnimation = animIdle;
 		}
+
+		if (Input.GetAxis("Horizontal") > 0.0f) {
+			currentAnimation = animDriveRight;
+		} else if(Input.GetAxis("Horizontal") < 0.0f) {
+			currentAnimation = animDriveLeft;
+		}
 	}
 
 	void PlayAnimation() {
@@ -84,6 +90,18 @@ public class SpriteAnimation : MonoBehaviour {
 			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax + 1);
 			if (currentFrame > driveMax) {
 				currentFrame = driveMin;
+			}
+		}
+		if (currentAnimation == animDriveLeft) {
+			currentFrame = Mathf.Clamp(currentFrame, driveLeftMin, driveLeftMax + 1);
+			if (currentFrame > driveLeftMax) {
+				currentFrame = driveLeftMin;
+			}
+		}
+		if (currentAnimation == animDriveRight) {
+			currentFrame = Mathf.Clamp(currentFrame, driveRightMin, driveRightMax + 1);
+			if (currentFrame > driveRightMax) {
+				currentFrame = driveRightMin;
 			}
 		}
 		// Enter the weird magic...this is just strange.
