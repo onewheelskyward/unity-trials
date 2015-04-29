@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour {
 		float verticalSpeed = Input.GetAxis("Vertical");
 		float horizontalSpeed = Input.GetAxis("Horizontal");
 
-		if (verticalSpeed > 0.0f) {
+		if (verticalSpeed >= 0.0f) {
 						// Input vertical button e.g. up arrow
 			moveDirection = verticalSpeed * speed;
 			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
