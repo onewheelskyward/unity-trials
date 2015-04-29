@@ -17,36 +17,41 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		float verticalSpeed = Input.GetAxis("Vertical");
-		float horizontalSpeed = Input.GetAxis("Horizontal");
+		float verticalSpeed = Input.GetAxis("Vertical");     // Input vertical button e.g. W/s
+		float horizontalSpeed = Input.GetAxis("Horizontal"); // Input horizontal button e.g. a/d
 		Rigidbody rigidBody = GetComponent<Rigidbody>();
 
-		if (verticalSpeed >= 0.0f) {
-						// Input vertical button e.g. up arrow
-			moveDirection = verticalSpeed * speed;
-			rigidBody.AddRelativeForce(0, 0, moveDirection);
-
-			turnDirection = horizontalSpeed * turnSpeed;
-			rigidBody.AddRelativeTorque(0, turnDirection, 0);
-		}
-		if (verticalSpeed < 0.0f) {
-			moveDirection = verticalSpeed * reverseSpeed;
-			rigidBody.AddRelativeForce(0, 0, moveDirection);
-
-			turnDirection = horizontalSpeed * turnSpeed;
-			rigidBody.AddRelativeTorque(0, -turnDirection, 0);
-		}
-
 		float currentSpeed = Mathf.Abs(transform.InverseTransformDirection(rigidBody.velocity).z);
-
+		
 		float maxAngularDrag = 2.5f;
 		float currentAngularDrag = 1.0f;
 		float angularDragLerpTime = currentSpeed * 0.1f;
-
+		
 		float maxDrag = 1.0f;
 		float currentDrag = 2.5f;
 		float dragLerpTime = currentSpeed * 0.1f;
 
+		if (verticalSpeed > 0.0f) {
+			moveDirection = verticalSpeed * speed;
+			rigidBody.AddRelativeForce(0, 0, moveDirection);
+
+			if (currentSpeed > 0.05f) {
+				turnDirection = horizontalSpeed * turnSpeed;
+				rigidBody.AddRelativeTorque(0, turnDirection, 0);
+			}
+		}
+
+		if (verticalSpeed < 0.0f) {
+			moveDirection = verticalSpeed * reverseSpeed;
+			rigidBody.AddRelativeForce(0, 0, moveDirection);
+
+			if (currentSpeed < 0.05f) {
+				turnDirection = horizontalSpeed * turnSpeed;
+				rigidBody.AddRelativeTorque(0, -turnDirection, 0);
+			}
+		}
+
+		// Set the drag coeffecients.
 		float angularDrag = Mathf.Lerp(currentAngularDrag, maxAngularDrag, angularDragLerpTime);
 		float drag = Mathf.Lerp (currentDrag, maxDrag, dragLerpTime);
 
