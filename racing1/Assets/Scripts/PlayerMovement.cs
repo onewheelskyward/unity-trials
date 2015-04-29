@@ -19,22 +19,25 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate () {
 		float verticalSpeed = Input.GetAxis("Vertical");
 		float horizontalSpeed = Input.GetAxis("Horizontal");
+		Rigidbody rigidBody = GetComponent<Rigidbody>();
 
 		if (verticalSpeed >= 0.0f) {
 						// Input vertical button e.g. up arrow
 			moveDirection = verticalSpeed * speed;
-			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+			rigidBody.AddRelativeForce(0, 0, moveDirection);
 
 			turnDirection = horizontalSpeed * turnSpeed;
-			GetComponent<Rigidbody>().AddRelativeTorque(0, turnDirection, 0);
+			rigidBody.AddRelativeTorque(0, turnDirection, 0);
 		}
 		if (verticalSpeed < 0.0f) {
 			moveDirection = verticalSpeed * reverseSpeed;
-			GetComponent<Rigidbody>().AddRelativeForce(0, 0, moveDirection);
+			rigidBody.AddRelativeForce(0, 0, moveDirection);
 
 			turnDirection = horizontalSpeed * turnSpeed;
-			GetComponent<Rigidbody>().AddRelativeTorque(0, -turnDirection, 0);
+			rigidBody.AddRelativeTorque(0, -turnDirection, 0);
 		}
+
+		float currentSpeed = Mathf.Abs(transform.InverseTransformDirection(rigidBody.velocity).z);
 			
 	}
 }
