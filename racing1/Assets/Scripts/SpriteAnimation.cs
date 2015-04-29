@@ -73,6 +73,15 @@ public class SpriteAnimation : MonoBehaviour {
 			animationTime++;
 		}
 
+		if (currentAnimation == animIdle) {
+			currentFrame = Mathf.Clamp(currentFrame, idleFrame, idleFrame);
+		}
+		if (currentAnimation == animDrive) {
+			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax);
+			if (currentFrame > driveMax) {
+				currentFrame = driveMin;
+			}
+		}
 		// Enter the weird magic...this is just strange.
 		framePostition.y = 1;
 
