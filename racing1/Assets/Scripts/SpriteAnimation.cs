@@ -16,6 +16,7 @@ public class SpriteAnimation : MonoBehaviour {
 	private Vector2 frameSize;
 	private Vector2 frameOffset;
 
+	public float carVelocity;
 	private int i;  // Not real sure why we're storing this on the instance.
 
 	private int idleFrame = 17;
@@ -57,7 +58,10 @@ public class SpriteAnimation : MonoBehaviour {
 	}
 
 	void FindAnimation() {
-		if (Input.GetAxis("Vertical") > 0.0f) {
+		PlayerMovement playerMovement = transform.parent.GetComponent<PlayerMovement>();
+		float carVelocity = playerMovement.currentSpeed;
+
+		if (carVelocity >= 0.1f) {
 			currentAnimation = animDrive;
 		} else {
 			currentAnimation = animIdle;
@@ -70,14 +74,14 @@ public class SpriteAnimation : MonoBehaviour {
 
 		if (animationTime <= 0) {
 			currentFrame++;
-			animationTime++;
+			animationTime += 1.0f / fps;
 		}
 
 		if (currentAnimation == animIdle) {
 			currentFrame = Mathf.Clamp(currentFrame, idleFrame, idleFrame);
 		}
 		if (currentAnimation == animDrive) {
-			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax);
+			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax + 1);
 			if (currentFrame > driveMax) {
 				currentFrame = driveMin;
 			}

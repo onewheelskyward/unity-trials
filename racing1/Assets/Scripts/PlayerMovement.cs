@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float speed = 10.0f;
 	public float reverseSpeed = 5.0f;
 	public float turnSpeed = 0.6f;
+	public float currentSpeed;
 
 	private float moveDirection = 0.0f;
 	private float turnDirection = 0.0f;
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour {
 		float horizontalSpeed = Input.GetAxis("Horizontal"); // Input horizontal button e.g. a/d
 		Rigidbody rigidBody = GetComponent<Rigidbody>();
 
-		float currentSpeed = Mathf.Abs(transform.InverseTransformDirection(rigidBody.velocity).z);
+		currentSpeed = Mathf.Abs(transform.InverseTransformDirection(rigidBody.velocity).z);
 		
 		float maxAngularDrag = 2.5f;
 		float currentAngularDrag = 1.0f;
