@@ -84,25 +84,21 @@ public class SpriteAnimation : MonoBehaviour {
 		}
 
 		if (currentAnimation == animIdle) {
-			currentFrame = Mathf.Clamp(currentFrame, idleFrame, idleFrame);
+			currentFrame = idleFrame;
 		}
 		if (currentAnimation == animDrive) {
-			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax + 1);
-			if (currentFrame > driveMax) {
-				currentFrame = driveMin;
-			}
+			currentFrame = chooseAnimationFrame(currentFrame, driveMin, driveMax);
+//			currentFrame = Mathf.Clamp(currentFrame, driveMin, driveMax + 1);
+//			if (currentFrame > driveMax) {
+//				currentFrame = driveMin;
+//			}
+
 		}
 		if (currentAnimation == animDriveLeft) {
-			currentFrame = Mathf.Clamp(currentFrame, driveLeftMin, driveLeftMax + 1);
-			if (currentFrame > driveLeftMax) {
-				currentFrame = driveLeftMin;
-			}
+			currentFrame = chooseAnimationFrame(currentFrame, driveLeftMin, driveLeftMax);
 		}
 		if (currentAnimation == animDriveRight) {
-			currentFrame = Mathf.Clamp(currentFrame, driveRightMin, driveRightMax + 1);
-			if (currentFrame > driveRightMax) {
-				currentFrame = driveRightMin;
-			}
+			currentFrame = chooseAnimationFrame(currentFrame, driveRightMin, driveRightMax);
 		}
 		// Enter the weird magic...this is just strange.
 		framePostition.y = 1;
@@ -120,5 +116,13 @@ public class SpriteAnimation : MonoBehaviour {
 
 		renderer.material.SetTextureScale("_MainTex", frameSize);
 		renderer.material.SetTextureOffset("_MainTex", frameOffset);
+	}
+
+	private int chooseAnimationFrame(int frame, int min, int max) {
+		int chosenFrame = Mathf.Clamp(frame, min, max + 1);
+		if (chosenFrame > max) {
+			chosenFrame = min;
+		}
+		return chosenFrame;
 	}
 }
