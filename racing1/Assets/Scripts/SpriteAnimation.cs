@@ -7,6 +7,8 @@ public class SpriteAnimation : MonoBehaviour {
 	public int rows = 8;
 
 	public int currentFrame = 1;
+	public int currentAnimation = 0;
+
 	public float animationTime = 0.0f;
 	public float fps = 10.0f;
 
@@ -28,17 +30,36 @@ public class SpriteAnimation : MonoBehaviour {
 	private int explosionMax = 16;
 
 
-	private static int animIdle = 0;
+	private int animIdle = 0;
+	private int animIdleLeft = 1;
+	private int animIdleRight = 2;
+	private int animDrive = 3;
+	private int animDriveLeft = 4;
+	private int animDriveRight = 5;
+	private int animSpin = 6;
+	private int animExplosion = 7;
 
-
-	// Use this for initialization
+			// Use this for initialization
 	void Start () {
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		HandleAnimation();
+	}
+
+	void HandleAnimation() {
+		FindAnimation();
 		PlayAnimation();
+	}
+
+	void FindAnimation() {
+		if (Input.GetAxis("Vertical") > 0.0f) {
+			currentAnimation = animDrive;
+		} else {
+			currentAnimation = animIdle;
+		}
 	}
 
 	void PlayAnimation() {
