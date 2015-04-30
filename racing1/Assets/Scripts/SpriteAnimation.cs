@@ -15,6 +15,7 @@ public class SpriteAnimation : MonoBehaviour {
 	private Vector2 framePostition;
 	private Vector2 frameSize;
 	private Vector2 frameOffset;
+	public bool isExploding = false;
 
 	public float carVelocity;
 	private int i;  // Not real sure why we're storing this on the instance.
@@ -72,7 +73,7 @@ public class SpriteAnimation : MonoBehaviour {
 			} else {
 				currentAnimation = animDrive;
 			}
-		} else {
+		} else if(carVelocity < 0.1f) {
 			if (turnedRight) {
 				currentAnimation = animIdleRight;
 			} else if(turnedLeft) {
@@ -80,6 +81,10 @@ public class SpriteAnimation : MonoBehaviour {
 			} else {
 				currentAnimation = animIdle;
 			}
+		}
+
+		if (isExploding) {
+			currentAnimation = animExplosion;
 		}
 	}
 
@@ -96,13 +101,13 @@ public class SpriteAnimation : MonoBehaviour {
 			currentFrame = idleFrame;
 		}
 		if (currentAnimation == animDrive) {
-			currentFrame = chooseAnimationFrame(currentFrame, driveMin, driveMax);
+			currentFrame = chooseLoopingAnimationFrame(currentFrame, driveMin, driveMax);
 		}
 		if (currentAnimation == animDriveLeft) {
-			currentFrame = chooseAnimationFrame(currentFrame, driveLeftMin, driveLeftMax);
+			currentFrame = chooseLoopingAnimationFrame(currentFrame, driveLeftMin, driveLeftMax);
 		}
 		if (currentAnimation == animDriveRight) {
-			currentFrame = chooseAnimationFrame(currentFrame, driveRightMin, driveRightMax);
+			currentFrame = chooseLoopingAnimationFrame(currentFrame, driveRightMin, driveRightMax);
 		}
 		// There's a more efficient way to do this.
 		if (currentAnimation == animIdleLeft) {
@@ -115,7 +120,20 @@ public class SpriteAnimation : MonoBehaviour {
 			currentFrame = spin;
 		}
 		if (currentAnimation == animExplosion) {
-			currentFrame = chooseAnimationFrame(currentFrame, explosionMin, explosionMax);
+			Debug.Log("CurBefore: " + currentFrame);
+			Debug.Log("ExplodeBefore: " + isExploding);
+			//			Debug.Log("explosionMax: " + explosionMax);
+			if(currentFrame == idleFrame && isExploding) {
+				currentFrame = explosionMin;
+			}
+			currentFrame = Mathf.Clamp(currentFrame, explosionMin, explosionMax + 1);
+			if (currentFrame > explosionMax) {
+				//				currentFrame = explosionMin;
+				isExploding = false;
+			}
+			
+			Debug.Log("ExplodeAfter: " + isExploding);
+			Debug.Log("CurAfter: " + currentFrame);
 		}
 
 		// Enter the weird magic...this is just strange.
@@ -137,7 +155,7 @@ public class SpriteAnimation : MonoBehaviour {
 		renderer.material.SetTextureOffset("_MainTex", frameOffset);
 	}
 
-	private int chooseAnimationFrame(int frame, int min, int max) {
+	private int chooseLoopingAnimationFrame(int frame, int min, int max) {
 		int chosenFrame = Mathf.Clamp(frame, min, max + 1);
 		if (chosenFrame > max) {
 			chosenFrame = min;
