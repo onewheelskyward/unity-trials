@@ -122,8 +122,8 @@ public class SpriteAnimation : MonoBehaviour {
 		if (currentAnimation == animExplosion) {
 			Debug.Log("CurBefore: " + currentFrame);
 			Debug.Log("ExplodeBefore: " + isExploding);
-			//			Debug.Log("explosionMax: " + explosionMax);
-			if(currentFrame == idleFrame && isExploding) {
+
+			if(currentFrame == idleFrame) {
 				currentFrame = explosionMin;
 			}
 			currentFrame = Mathf.Clamp(currentFrame, explosionMin, explosionMax + 1);
